@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+    <form action="/cash" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th class="symbol">Symbol</th>
+                    <th>Shares</th>
+                    <th>Price</th>
+                    <th>TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stock in stocks %}
+                    {% if stock["shares"] != 0 %}
+                        <tr class="grey_row">
+                            <td class="symbol">{{ stock["symbol"] }}</td>
+                            <td>{{ stock["shares"] }}</td>
+                            <td>{{ stock["price"] | usd }}</td>
+                            <td>{{ stock["total"] | usd }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                <tr>
+                    <th id="cash">Cash</th>
+                    <td><input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="cash" placeholder="Cash" min="1" step="0.01" type="number"></td>
+                    <td><button type="submit" class="btn btn-primary">Add</button></td>
+                    <td>{{ cash | usd }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <th>TOTAL</th>
+                    <td>{{ ((total | int) + cash) | usd }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+{% endblock %}
